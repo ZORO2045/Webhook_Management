@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Management</title>
+    <style>
+        body {
+            text-align: center;
+            color: #fff;
+            background-image: url('background_image.jpg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            height: 40px;
+            width: 200px;
+            background-color: #070edb;
+            border-radius: 20px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .button:hover {
+            background-color: #999;
+        }
+
+        #deleteWebhookBtn {
+            background-color: #ff0000;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #ccc;
+            font-size: 14px;
+            padding: 10px 0;
+        }
+
+        #footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #footer a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <button onclick="createWebhook()" class="button">Create Webhook</button>
+        <br>
+        <button onclick="deleteWebhook()" class="button" id="deleteWebhookBtn">Delete Webhook</button>
+    </main>
+
+    <footer id="footer">
+        <p>Made with ❤️ by <a href="https://t.me/ZORO2045">ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
+    </footer>
+
+    <script>
+        function createWebhook() {
+            var token = prompt("Enter your token:");
+            var fileUrl = prompt("Enter file URL:");
+            var request = new XMLHttpRequest();
+            request.open('POST', 'https://api.telegram.org/bot' + token + '/setwebhook?url=' + fileUrl, true);
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    alert("Webhook created successfully!");
+                } else {
+                    alert("Failed to create webhook!");
+                }
+            };
+            request.onerror = function() {
+                alert("An error occurred while processing your request!");
+            };
+            request.send();
+        }
+
+        function deleteWebhook() {
+            var token = prompt("Enter your token:");
+            var request = new XMLHttpRequest();
+            request.open('GET', 'https://api.telegram.org/bot' + token + '/deleteWebhook', true);
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    alert("Webhook deleted successfully!");
+                } else {
+                    alert("Failed to delete webhook!");
+                }
+            };
+            request.onerror = function() {
+                alert("An error occurred while processing your request!");
+            };
+            request.send();
+        }
+    </script>
+
+</body>
+
+</html>
