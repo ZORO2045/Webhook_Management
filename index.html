@@ -30,22 +30,34 @@
         .button {
             height: 40px;
             width: 200px;
-            background-color: #070edb;
+            background-image: linear-gradient(to right, #070edb, #0d46ff);
             border-radius: 20px;
             border: none;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: background-image 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         .button:hover {
-            background-color: #070edb;
+            background-image: linear-gradient(to right, #0d46ff, #070edb);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
         #deleteWebhookBtn {
-            background-color: #ff0000;
+            background-image: linear-gradient(to right, #ff4b4b, #ff0000);
+        }
+
+        #deleteWebhookBtn:hover {
+            background-image: linear-gradient(to right, #ff0000, #ff4b4b);
         }
 
         #footer {
