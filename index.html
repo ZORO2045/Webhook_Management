@@ -18,7 +18,6 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
         main {
             flex: 1;
             display: flex;
@@ -26,40 +25,46 @@
             justify-content: center;
             align-items: center;
         }
+         .button {
+      height: 50px;
+      width: 220px;
+      border: 2px solid transparent;
+      background-color: rgba(0, 0, 0, 1);
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 20px 0;
+      border-radius: 25px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
 
-        .button {
-            height: 40px;
-            width: 200px;
-            background-image: linear-gradient(to right, #070edb, #0d46ff);
-            border-radius: 20px;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-image 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
+    #createWebhookBtn {
+      color: #00FF00;
+      border-color: #00FF00;
+    }
+    #createWebhookBtn:hover {
+      background: #00FF00;
+      color: #000;
+    }
 
-        .button:hover {
-            background-image: linear-gradient(to right, #0d46ff, #070edb);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
-        }
+    #deleteWebhookBtn {
+      color: #FF0000;
+      border-color: #FF0000;
+    }
+    #deleteWebhookBtn:hover {
+      background: #FF0000;
+      color: #000;
+    }
 
-        .button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        #deleteWebhookBtn {
-            background-image: linear-gradient(to right, #ff4b4b, #ff0000);
-        }
-
-        #deleteWebhookBtn:hover {
-            background-image: linear-gradient(to right, #ff0000, #ff4b4b);
-        }
-
+    #getBotInfoBtn {
+      color: #0000FF;
+      border-color: #0000FF;
+    }
+    #getBotInfoBtn:hover {
+      background: #0000FF;
+      color: #000;
+    }
         #footer {
             position: fixed;
             bottom: 0;
@@ -80,55 +85,174 @@
         #footer a:hover {
             color: #fff;
         }
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
+        }
+        #modalContent {
+            background-color: #282c34;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 400px;
+            color: #fff;
+            text-align: left;
+            border-radius: 10px;
+        }
+        #closeModal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        #closeModal:hover,
+        #closeModal:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
 
     <main>
-        <button onclick="createWebhook()" class="button">Create Webhook</button>
-        <br>
-        <button onclick="deleteWebhook()" class="button" id="deleteWebhookBtn">Delete Webhook</button>
+        <button id="createWebhookBtn" onclick="createWebhook()" class="button">Create Webhook</button>
+        <button id="deleteWebhookBtn" onclick="deleteWebhook()" class="button">Delete Webhook</button>
+        <button id="getBotInfoBtn" onclick="getBotInfo()" class="button">Get Bot Info</button>
     </main>
 
     <footer id="footer">
         <p>Made with ❤️ by <a href="https://t.me/ZORO2045"> ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
     </footer>
 
+    <div id="modal">
+        <div id="modalContent">
+            <span id="closeModal">&times;</span>
+            <h2>Token Information</h2>
+            <pre id="tokenInfo"></pre>
+        </div>
+    </div>
+
     <script>
         function createWebhook() {
-            var token = prompt("Enter your token:");
+            var token = prompt("Enter your bot token:");
             var fileUrl = prompt("Enter file URL:");
             var request = new XMLHttpRequest();
-            request.open('POST', 'https://api.telegram.org/bot' + token + '/setwebhook?url=' + fileUrl, true);
-            request.onload = function() {
+            request.open('POST', 'https://api.telegram.org/bot' + token + '/setWebhook?url=' + encodeURIComponent(fileUrl), true);
+            request.onload = function () {
                 if (request.status >= 200 && request.status < 400) {
                     alert("Webhook created successfully!");
                 } else {
                     alert("Failed to create webhook!");
                 }
             };
-            request.onerror = function() {
+            request.onerror = function () {
                 alert("An error occurred while processing your request!");
             };
             request.send();
         }
 
         function deleteWebhook() {
-            var token = prompt("Enter your token:");
+            var token = prompt("Enter your bot token:");
             var request = new XMLHttpRequest();
             request.open('GET', 'https://api.telegram.org/bot' + token + '/deleteWebhook', true);
-            request.onload = function() {
+            request.onload = function () {
                 if (request.status >= 200 && request.status < 400) {
                     alert("Webhook deleted successfully!");
                 } else {
                     alert("Failed to delete webhook!");
                 }
             };
-            request.onerror = function() {
+            request.onerror = function () {
                 alert("An error occurred while processing your request!");
             };
             request.send();
+        }
+
+        function getBotInfo() {
+            var token = prompt("Enter your bot token:");
+            var botRequest = new XMLHttpRequest();
+            botRequest.open('GET', 'https://api.telegram.org/bot' + token + '/getMe', true);
+            botRequest.onload = function () {
+                if (botRequest.status >= 200 && botRequest.status < 400) {
+                    var botData = JSON.parse(botRequest.responseText);
+                    if (botData.ok) {
+                        var botInfo = `- Bot Information 🧾!\n------------------------------------\n` +
+                                      `- Bot Name : ${botData.result.first_name} 🤖!\n` +
+                                      `- Bot Username : @${botData.result.username} 🌀!\n` +
+                                      `- Bot ID : ${botData.result.id} 🆔!\n` +
+                                      `- Add to Groups : Supported 👥!\n` +
+                                      `- Privacy Mode : Not Supported 🔑! ⁣(?)\n` +
+                                      `- Inline Mode : Not Supported 💭! ⁣(?)\n` +
+                                      `------------------------------------\n\n`;
+
+                        getWebhookInfo(token, botInfo);
+                    } else {
+                        alert("Failed to fetch bot info! " + botData.description);
+                    }
+                } else {
+                    alert("Failed to fetch bot info!");
+                }
+            };
+            botRequest.onerror = function () {
+                alert("An error occurred while processing your request!");
+            };
+            botRequest.send();
+        }
+
+        function getWebhookInfo(token, botInfo) {
+            var webhookRequest = new XMLHttpRequest();
+            webhookRequest.open('GET', 'https://api.telegram.org/bot' + token + '/getWebhookInfo', true);
+            webhookRequest.onload = function () {
+                if (webhookRequest.status >= 200 && webhookRequest.status < 400) {
+                    var webhookData = JSON.parse(webhookRequest.responseText);
+                    if (webhookData.ok) {
+                        var webhookInfo = `- Webhook Information 🎫!\n------------------------------------\n` +
+                                          `- Webhook URL : ${webhookData.result.url || 'Not Available 🖇!'}\n` +
+                                          `- Custom Certificate : Not Available 🌐!\n` +
+                                          `- Number of Pending Requests : ${webhookData.result.pending_update_count || 0} 🔢!\n` +
+                                          `- Requests that the bot can receive : { All update types except {chat_member, message_reaction, message_reaction_count} (default) } ✔!\n`;
+
+                        document.getElementById('tokenInfo').textContent = botInfo + webhookInfo;
+                        document.getElementById('modal').style.display = "block";
+                    } else {
+                        alert("Failed to fetch webhook info! " + webhookData.description);
+                    }
+                } else {
+                    alert("Failed to fetch webhook info!");
+                }
+            };
+            webhookRequest.onerror = function () {
+                alert("An error occurred while processing your request!");
+            };
+            webhookRequest.send();
+        }
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('modal').style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                document.getElementById('modal').style.display = "none";
+            }
         }
     </script>
 
