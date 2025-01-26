@@ -17,5 +17,7 @@ This repository contains a simple web application for managing webhooks using Ja
 - **Get Token Info**: Click the button and enter your bot token to retrieve information about your bot.
 - **Clear Pending Requests**: Click the button to clear pending requests and reset the Webhook.
 
+## License
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for more details.
 ## Credits
 • This project was created by [ፚ Ꭷ Ꮢ Ꭷ ❥](https://t.me/ZORO2045).
