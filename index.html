@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Webhook Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             text-align: center;
@@ -19,6 +22,7 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
         main {
             flex: 1;
             display: flex;
@@ -26,6 +30,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .button {
             height: 50px;
             width: 220px;
@@ -39,39 +44,54 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        .button i {
+            margin-right: 10px;
+        }
+
         #createWebhookBtn {
             color: #00FF00;
             border-color: #00FF00;
         }
+
         #createWebhookBtn:hover {
             background: #00FF00;
             color: #000;
         }
+
         #deleteWebhookBtn {
             color: #FF0000;
             border-color: #FF0000;
         }
+
         #deleteWebhookBtn:hover {
             background: #FF0000;
             color: #000;
         }
+
         #getBotInfoBtn {
             color: #0000FF;
             border-color: #0000FF;
         }
+
         #getBotInfoBtn:hover {
             background: #0000FF;
             color: #000;
         }
+
         #clearPendingRequestsBtn {
             color: #FFA500;
             border-color: #FFA500;
         }
+
         #clearPendingRequestsBtn:hover {
             background: #FFA500;
             color: #000;
         }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -89,7 +109,7 @@
             text-decoration: none;
             font-size: 1rem;
         }
-        
+
         #modal {
             display: none;
             position: fixed;
@@ -102,6 +122,7 @@
             background-color: rgba(0, 0, 0, 0.7);
             padding-top: 60px;
         }
+
         #modalContent {
             background-color: #282c34;
             margin: 5% auto;
@@ -112,18 +133,21 @@
             text-align: left;
             border-radius: 10px;
         }
+
         #closeModal {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
         }
+
         #closeModal:hover,
         #closeModal:focus {
             color: #fff;
             text-decoration: none;
             cursor: pointer;
         }
+
         pre {
             white-space: pre-wrap;
             word-wrap: break-word;
@@ -132,31 +156,33 @@
             background-color: #1e1e1e;
             border-radius: 5px;
         }
+
         @media (max-width: 768px) {
             #modalContent {
                 width: 90%;
                 margin: 10% auto;
                 padding: 15px;
             }
+        }
     </style>
 </head>
 
 <body>
 
     <main>
-        <button id="createWebhookBtn" onclick="createWebhook()" class="button">Create Webhook</button>
-        <button id="deleteWebhookBtn" onclick="deleteWebhook()" class="button">Delete Webhook</button>
-        <button id="getBotInfoBtn" onclick="getBotInfo()" class="button">Get Token Info</button>
+        <button id="createWebhookBtn" onclick="createWebhook()" class="button"><i class="fas fa-link"></i> Create Webhook</button>
+        <button id="deleteWebhookBtn" onclick="deleteWebhook()" class="button"><i class="fas fa-trash-alt"></i> Delete Webhook</button>
+        <button id="getBotInfoBtn" onclick="getBotInfo()" class="button"><i class="fas fa-info-circle"></i> Get Token Info</button>
         <button id="clearPendingRequestsBtn" onclick="clearPendingRequests()" class="button">Clear Pending Requests</button>
     </main>
 
     <footer id="footer">
         <p>Developed by <a href="https://zoro2045.github.io/">ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
     </footer>
-          
+
     <div id="modal">
         <div id="modalContent">
-            <span id="closeModal">&times;</span>
+            <span id="closeModal">×</span>
             <h2>Token Information</h2>
             <pre id="tokenInfo"></pre>
         </div>
@@ -208,11 +234,11 @@
                     if (botData.ok) {
                         var canJoinGroups = botData.result.can_join_groups ? 'Supported 👥!' : 'Not Supported ❌!';
                         var botInfo = `- Bot Information 🧾!\n------------------------------------\n` +
-                                      `- Bot Name : ${botData.result.first_name} 🤖!\n` +
-                                      `- Bot Username : @${botData.result.username} 🌀!\n` +
-                                      `- Bot ID : ${botData.result.id} 🆔!\n` +
-                                      `- Add to Groups : ${canJoinGroups}\n` +
-                                      `------------------------------------\n\n`;
+                            `- Bot Name : ${botData.result.first_name} 🤖!\n` +
+                            `- Bot Username : @${botData.result.username} 🌀!\n` +
+                            `- Bot ID : ${botData.result.id} 🆔!\n` +
+                            `- Add to Groups : ${canJoinGroups}\n` +
+                            `------------------------------------\n\n`;
 
                         getWebhookInfo(token, botInfo);
                     } else {
@@ -236,11 +262,11 @@
                     var webhookData = JSON.parse(webhookRequest.responseText);
                     if (webhookData.ok) {
                         var webhookInfo = `- Webhook Information 🎫!\n------------------------------------\n` +
-                                          `- Webhook URL : ${webhookData.result.url || 'Not Available 🖇!'}\n` +
-                                          `- IP Address for Webhook : ${webhookData.result.ip_address || 'Not Available 🌐!'}\n` +
-                                          `- Custom Certificate : Not Available 🌐!\n` +
-                                          `- Number of Pending Requests : ${webhookData.result.pending_update_count || 0} 🔢!\n` +
-                                          `- Requests that the bot can receive : { All update types except {chat_member, message_reaction, message_reaction_count} (default) } ✔!\n`;
+                            `- Webhook URL : ${webhookData.result.url || 'Not Available 🖇!'}\n` +
+                            `- IP Address for Webhook : ${webhookData.result.ip_address || 'Not Available 🌐!'}\n` +
+                            `- Custom Certificate : Not Available 🌐!\n` +
+                            `- Number of Pending Requests : ${webhookData.result.pending_update_count || 0} 🔢!\n` +
+                            `- Requests that the bot can receive : { All update types except {chat_member, message_reaction, message_reaction_count} (default) } ✔!\n`;
 
                         document.getElementById('tokenInfo').textContent = botInfo + webhookInfo;
                         document.getElementById('modal').style.display = "block";
@@ -292,11 +318,11 @@
             request.send();
         }
 
-        document.getElementById('closeModal').onclick = function() {
+        document.getElementById('closeModal').onclick = function () {
             document.getElementById('modal').style.display = "none";
         }
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == document.getElementById('modal')) {
                 document.getElementById('modal').style.display = "none";
             }
