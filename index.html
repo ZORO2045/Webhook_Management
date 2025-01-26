@@ -145,8 +145,8 @@
     </main>
 
     <footer id="footer">
-                <p>Developed by <a href="https://zoro2045.github.io/">ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
-            </footer>
+        <p>Developed by <a href="https://zoro2045.github.io/">ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
+    </footer>
           
     <div id="modal">
         <div id="modalContent">
@@ -200,13 +200,12 @@
                 if (botRequest.status >= 200 && botRequest.status < 400) {
                     var botData = JSON.parse(botRequest.responseText);
                     if (botData.ok) {
+                        var canJoinGroups = botData.result.can_join_groups ? 'Supported 👥!' : 'Not Supported ❌!';
                         var botInfo = `- Bot Information 🧾!\n------------------------------------\n` +
                                       `- Bot Name : ${botData.result.first_name} 🤖!\n` +
                                       `- Bot Username : @${botData.result.username} 🌀!\n` +
                                       `- Bot ID : ${botData.result.id} 🆔!\n` +
-                                      `- Add to Groups : Supported 👥!\n` +
-                                      `- Privacy Mode : Not Supported 🔑!\n` +
-                                      `- Inline Mode : Not Supported 💭!\n` +
+                                      `- Add to Groups : ${canJoinGroups}\n` +
                                       `------------------------------------\n\n`;
 
                         getWebhookInfo(token, botInfo);
@@ -232,6 +231,7 @@
                     if (webhookData.ok) {
                         var webhookInfo = `- Webhook Information 🎫!\n------------------------------------\n` +
                                           `- Webhook URL : ${webhookData.result.url || 'Not Available 🖇!'}\n` +
+                                          `- IP Address for Webhook : ${webhookData.result.ip_address || 'Not Available 🌐!'}\n` +
                                           `- Custom Certificate : Not Available 🌐!\n` +
                                           `- Number of Pending Requests : ${webhookData.result.pending_update_count || 0} 🔢!\n` +
                                           `- Requests that the bot can receive : { All update types except {chat_member, message_reaction, message_reaction_count} (default) } ✔!\n`;
