@@ -12,8 +12,10 @@ This repository contains a simple web application for managing webhooks using Ja
 
 ## Usage
 
-1. Click on the "Create Webhook" button to create a webhook. Enter your Telegram bot token and the file URL when prompted.
-2. Click on the "Delete Webhook" button to delete an existing webhook. Enter your Telegram bot token when prompted.
+- **Create Webhook**: Click the button and enter your bot token and file URL to create a Webhook.
+- **Delete Webhook**: Click the button to delete the current Webhook.
+- **Get Token Info**: Click the button and enter your bot token to retrieve information about your bot.
+- **Clear Pending Requests**: Click the button to clear pending requests and reset the Webhook.
 
 ## Credits
 • This project was created by [ፚ Ꭷ Ꮢ Ꭷ ❥](https://t.me/ZORO2045).
