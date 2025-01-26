@@ -5,8 +5,10 @@
 This repository contains a simple web application for managing webhooks using JavaScript and XMLHttpRequest. It allows users to create, delete, and retrieve information about their Webhooks, as well as clear pending requests.
 ## Features
 
-- **Create Webhook**: Users can create a webhook by providing their Telegram bot token and a file URL.
-- **Delete Webhook**: Users can delete an existing webhook by providing their Telegram bot token.
+- **Create Webhook**: Enter your bot token and file URL to create a new Webhook.
+- **Delete Webhook**: Easily delete the current Webhook.
+- **Get Token Info**: Display information about your bot, including its name, username, and bot ID.
+- **Clear Pending Requests**: Clear any pending requests and automatically reset the Webhook.
 
 ## Usage
 
