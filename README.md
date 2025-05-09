@@ -21,3 +21,6 @@ This repository contains a simple web application for managing webhooks using Ja
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for more details.
 ## Credits
 • This project was created by [ፚ Ꭷ Ꮢ Ꭷ ❥](https://t.me/ZORO2045).
+
+## ☕️ Support My Work 
+[![Binance](https://img.shields.io/badge/Binance-%23F0B90B.svg?style=for-the-badge&logo=binance&logoColor=white&labelColor=black&color=%23F0B90B&label=Donate%20BNB)](https://pay.binance.com/en?merchantId=738956783)
