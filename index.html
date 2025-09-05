@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your Telegram bot webhooks, get detailed bot information, and easily configure your bot settings with our user-friendly interface">
     <title>Telegram Bot Webhook Manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +22,6 @@
             --card-bg: #16213e;
             --body-bg: #0f172a;
             --border-radius: 12px;
-            --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -49,7 +49,9 @@
 
         header {
             text-align: center;
+            margin-top: 2rem;
             margin-bottom: 3rem;
+            position: relative;
         }
 
         .logo {
@@ -80,7 +82,6 @@
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 2rem;
-            box-shadow: var(--box-shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -91,7 +92,7 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1.5px solid #66b3ff;
         }
 
         .card-icon {
@@ -128,7 +129,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             border: none;
-            cursor: pointer;
+            cursor: default;
             font-size: 0.95rem;
             width: 100%;
             max-width: 200px;
@@ -209,11 +210,10 @@
         .modal-content {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            max-width: 600px;
+            max-width: 800px;
             margin: 2rem auto;
             padding: 2rem;
             position: relative;
-            box-shadow: var(--box-shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -236,7 +236,7 @@
             border: none;
             color: var(--gray);
             font-size: 1.5rem;
-            cursor: pointer;
+            cursor: default;
             transition: color 0.3s ease;
         }
 
@@ -374,6 +374,7 @@
             z-index: 1100;
             display: flex;
             align-items: center;
+            border-left: 4px solid var(--primary);
         }
 
         .toast.show {
@@ -382,21 +383,621 @@
         }
 
         .toast.success {
-            border-left: 4px solid var(--success);
+            border-left-color: var(--success);
         }
 
         .toast.error {
-            border-left: 4px solid var(--danger);
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
         }
 
         .toast i {
             margin-right: 10px;
             font-size: 1.2rem;
         }
+
+        .token-history {
+            margin-top: 2rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .token-history h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--light);
+        }
+
+        .token-list {
+            list-style: none;
+        }
+
+        .token-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .token-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .token-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .token-actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: default;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .token-actions button:hover {
+            color: var(--light);
+        }
+
+        .token-actions .use-btn:hover {
+            color: var(--primary);
+        }
+
+        .token-actions .delete-btn:hover {
+            color: var(--danger);
+        }
+
+        .copy-btn {
+            background: rgba(67, 97, 238, 0.1);
+            border: none;
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: default;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        .copy-btn i {
+            margin-right: 4px;
+        }
+
+        .tab-container {
+            margin-top: 1.5rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: default;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .token-security {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .token-security i {
+            margin-right: 0.5rem;
+            color: var(--warning);
+        }
+
+        .token-security span {
+            font-size: 0.85rem;
+            color: var(--warning);
+        }
+
+        .token-input-container {
+            position: relative;
+        }
+
+        .token-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: default;
+        }
+
+        .token-toggle:hover {
+            color: var(--light);
+        }
+
+        .api-response-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+            text-align: right;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card-title {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(34, 139, 34, 0.2);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background-color: rgba(209, 26, 42, 0.2);
+            color: var(--danger);
+        }
+
+        .status-pending {
+            background-color: rgba(248, 150, 30, 0.2);
+            color: var(--warning);
+        }
+
+        .webhook-test-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .webhook-test-btn {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: default;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .webhook-test-btn:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        .documentation-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .documentation-link i {
+            margin-right: 0.5rem;
+        }
+
+        .documentation-link:hover {
+            text-decoration: underline;
+        }
+
+        .settings-toggle {
+            position: absolute;
+            margin-top: 1rem;
+            top: 0;
+            left: 0;
+            background: none;
+            border: none;
+            color: #4da6ff;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .settings-toggle:hover {
+            color: #66b3ff;
+        }
+
+        .settings-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: currentColor;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 350px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0f172a, #16213e);
+            transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            z-index: 1050;
+            padding: 2rem;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-panel.open {
+            left: 0;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .settings-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .close-settings {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.8rem;
+            cursor: default;
+            transition: color 0.3s ease;
+        }
+
+        .close-settings:hover {
+            color: var(--light);
+        }
+
+        .settings-group {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .settings-label {
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: var(--light);
+        }
+
+        .settings-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--light);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .settings-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .settings-checkbox {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .settings-checkbox:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .settings-checkbox input {
+            margin-right: 1rem;
+            width: 18px;
+            height: 18px;
+            cursor: default;
+        }
+
+        .settings-checkbox label {
+            cursor: default;
+            font-weight: 500;
+        }
+
+        .settings-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1040;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .token-usage-chart {
+            height: 200px;
+            margin-top: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--gray);
+            text-align: center;
+        }
+
+        .token-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .token-validity {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .validity-icon {
+            margin-right: 0.5rem;
+        }
+
+        .valid {
+            color: var(--success);
+        }
+
+        .invalid {
+            color: var(--danger);
+        }
+
+        .token-actions-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .token-actions-row .btn {
+            max-width: 48%;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .token-actions-row .btn i {
+            margin-right: 5px;
+        }
+
+        .token-input-group {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .token-input-group .form-input {
+            padding-right: 40px;
+        }
+
+        .token-input-group .btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            width: auto;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8rem;
+            max-width: none;
+        }
+
+        .token-scopes {
+            margin-top: 1rem;
+        }
+
+        .scope-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .scope-icon {
+            margin-right: 0.5rem;
+            color: var(--success);
+        }
+
+        .scope-name {
+            font-size: 0.9rem;
+        }
+
+        .token-expiry {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .token-expiry strong {
+            color: var(--light);
+        }
+
+        .token-advanced {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .token-advanced-title {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .token-advanced-content {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .token-advanced-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        .token-advanced-actions .btn {
+            max-width: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .notification-settings {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .notification-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .notification-toggle input {
+            margin-right: 0.5rem;
+        }
+        
+        .chat-id-field {
+            display: none;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
 <body>
+    <button class="settings-toggle" onclick="showSettings()" aria-label="Open settings">
+  <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+    <path d="M3 6h18M3 12h18M3 18h18"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+  </svg>
+</button>
+
     <div class="container">
         <header>
             <h1 class="logo">Telegram Bot Manager</h1>
@@ -409,7 +1010,7 @@
                     <i class="fas fa-link"></i>
                 </div>
                 <h3 class="card-title">Create Webhook</h3>
-                <p class="card-desc">Set up a new webhook for your Telegram bot</p>
+                <p class="card-desc">Set up a new webhook for your Telegram bot with custom parameters</p>
                 <button class="btn btn-success" onclick="showCreateWebhookModal()">
                     <i class="fas fa-plus-circle"></i> Create
                 </button>
@@ -441,17 +1042,26 @@
                 <div class="card-icon" style="color: var(--warning);">
                     <i class="fas fa-broom"></i>
                 </div>
-                <h3 class="card-title">Clear Updates</h3>
-                <p class="card-desc">Clear pending updates and reset your bot's webhook</p>
+                <h3 class="card-title">Clear Requests</h3>
+                <p class="card-desc">Clear pending requests and reset your bot's webhook</p>
                 <button class="btn btn-warning" onclick="showClearUpdatesModal()">
                     <i class="fas fa-sync-alt"></i> Clear
                 </button>
             </div>
         </div>
+
+        <div class="token-history">
+            <h3><i class="fas fa-history"></i> Recent Tokens</h3>
+            <ul class="token-list" id="tokenList">
+                <li class="token-item">
+                    <span>No recent tokens found</span>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <footer>
-        <p>Developed by <a href="https://zoro2045.github.io/" target="_blank">ፚ Ꭷ Ꮢ Ꭷ ❥</a></p>
+        <p>Developed by <a href="https://zoro2045.github.io/" target="_blank">ፚ Ꭷ Ꮢ Ꭷ ❥</a>.
     </footer>
 
     <div class="modal" id="infoModal">
@@ -462,7 +1072,34 @@
             </div>
             <div class="modal-body">
                 <div id="spinner" class="spinner"></div>
-                <div id="tokenInfo" class="info-display" style="display: none;"></div>
+                <div class="tab-container" id="infoTabs" style="display: none;">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+                        <button class="tab-btn" onclick="switchTab('webhook')">Webhook</button>
+                        <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
+                    </div>
+                    <div class="tab-content active" id="overviewTab">
+                        <div id="tokenInfo"></div>
+                        <div class="info-grid" id="infoGrid"></div>
+                    </div>
+                    <div class="tab-content" id="webhookTab">
+                        <div id="webhookInfo"></div>
+                        <div class="webhook-test-section">
+                            <button class="webhook-test-btn" onclick="testWebhook()">
+                                <i class="fas fa-bolt"></i> Test Webhook
+                            </button>
+                            <p class="api-response-time" id="webhookResponseTime"></p>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="advancedTab">
+                        <div id="advancedInfo"></div>
+                        <div class="token-advanced-actions">
+                            <button class="btn btn-outline" onclick="exportBotInfo()">
+                                <i class="fas fa-download"></i> Export Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -476,16 +1113,55 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="createToken" class="form-label">Bot Token</label>
-                    <input type="text" id="createToken" class="form-input" placeholder="Enter your bot token">
+                    <div class="token-input-group">
+                        <input type="password" id="createToken" class="form-input" placeholder="Enter your bot token">
+                        <button class="btn btn-outline" onclick="toggleTokenVisibility('createToken')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="token-validity" id="createTokenValidity">
+                        <i class="fas fa-question-circle validity-icon"></i>
+                        <span>Token not validated</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="webhookUrl" class="form-label">Webhook URL</label>
-                    <input type="text" id="webhookUrl" class="form-input" placeholder="Enter the webhook URL">
+                    <input type="text" id="webhookUrl" class="form-input" placeholder="https://example.com/webhook">
                 </div>
+                <div class="form-group">
+                    <label for="maxConnections" class="form-label">Max Connections (1-100)</label>
+                    <input type="number" id="maxConnections" class="form-input" placeholder="40" min="1" max="100" value="40">
+                </div>
+                <div class="form-group">
+                    <label for="allowedUpdates" class="form-label">Allowed Updates (comma separated)</label>
+                    <input type="text" id="allowedUpdates" class="form-input" placeholder="message,edited_message,channel_post">
+                </div>
+                <div class="form-group">
+                    <label for="secretToken" class="form-label">Secret Token (optional)</label>
+                    <input type="text" id="secretToken" class="form-input" placeholder="Enter a secret token for verification">
+                </div>
+                
+                <div class="notification-settings">
+                    <div class="notification-toggle">
+                        <input type="checkbox" id="createNotify" onchange="toggleChatIdField('createNotify', 'createChatId')">
+                        <label for="createNotify">Send confirmation message</label>
+                    </div>
+                    <div class="form-group chat-id-field" id="createChatId">
+                        <label for="createChatIdInput" class="form-label">Chat ID for confirmation</label>
+                        <input type="text" id="createChatIdInput" class="form-input" placeholder="Enter your Chat ID">
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+                            Your Chat ID: <span id="createChatIdValue">Not detected</span>
+                            <button type="button" class="copy-btn" onclick="detectChatId('createToken', 'createChatIdValue', 'createChatIdInput')">
+                                <i class="fas fa-sync-alt"></i> Detect
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="closeModal('createWebhookModal')">Cancel</button>
                     <button class="btn btn-success" onclick="createWebhook()">
-                        <i class="fas fa-check"></i> Create
+                        <i class="fas fa-check"></i> Create Webhook
                     </button>
                 </div>
             </div>
@@ -501,12 +1177,45 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="deleteToken" class="form-label">Bot Token</label>
-                    <input type="text" id="deleteToken" class="form-input" placeholder="Enter your bot token">
+                    <div class="token-input-group">
+                        <input type="password" id="deleteToken" class="form-input" placeholder="Enter your bot token">
+                        <button class="btn btn-outline" onclick="toggleTokenVisibility('deleteToken')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="token-validity" id="deleteTokenValidity">
+                        <i class="fas fa-question-circle validity-icon"></i>
+                        <span>Token not validated</span>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <div class="settings-checkbox">
+                        <input type="checkbox" id="dropPendingUpdates" checked>
+                        <label for="dropPendingUpdates">Drop pending requests</label>
+                    </div>
+                </div>
+                
+                <div class="notification-settings">
+                    <div class="notification-toggle">
+                        <input type="checkbox" id="deleteNotify" onchange="toggleChatIdField('deleteNotify', 'deleteChatId')">
+                        <label for="deleteNotify">Send confirmation message</label>
+                    </div>
+                    <div class="form-group chat-id-field" id="deleteChatId">
+                        <label for="deleteChatIdInput" class="form-label">Chat ID for confirmation</label>
+                        <input type="text" id="deleteChatIdInput" class="form-input" placeholder="Enter your Chat ID">
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+                            Your Chat ID: <span id="deleteChatIdValue">Not detected</span>
+                            <button type="button" class="copy-btn" onclick="detectChatId('deleteToken', 'deleteChatIdValue', 'deleteChatIdInput')">
+                                <i class="fas fa-sync-alt"></i> Detect
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="closeModal('deleteWebhookModal')">Cancel</button>
                     <button class="btn btn-danger" onclick="deleteWebhook()">
-                        <i class="fas fa-trash"></i> Delete
+                        <i class="fas fa-trash"></i> Delete Webhook
                     </button>
                 </div>
             </div>
@@ -516,22 +1225,49 @@
     <div class="input-modal" id="clearUpdatesModal">
         <div class="input-modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Clear Pending Updates</h3>
+                <h3 class="modal-title">Clear Pending Requests</h3>
                 <button class="close-modal" onclick="closeModal('clearUpdatesModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="clearToken" class="form-label">Bot Token</label>
-                    <input type="text" id="clearToken" class="form-input" placeholder="Enter your bot token">
+                    <div class="token-input-group">
+                        <input type="password" id="clearToken" class="form-input" placeholder="Enter your bot token">
+                        <button class="btn btn-outline" onclick="toggleTokenVisibility('clearToken')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="token-validity" id="clearTokenValidity">
+                        <i class="fas fa-question-circle validity-icon"></i>
+                        <span>Token not validated</span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="newWebhookUrl" class="form-label">New Webhook URL (optional)</label>
                     <input type="text" id="newWebhookUrl" class="form-input" placeholder="Enter new webhook URL if needed">
                 </div>
+                
+                <div class="notification-settings">
+                    <div class="notification-toggle">
+                        <input type="checkbox" id="clearNotify" onchange="toggleChatIdField('clearNotify', 'clearChatId')">
+                        <label for="clearNotify">Send confirmation message</label>
+                    </div>
+                    <div class="form-group chat-id-field" id="clearChatId">
+                        <label for="clearChatIdInput" class="form-label">Chat ID for confirmation</label>
+                        <input type="text" id="clearChatIdInput" class="form-input" placeholder="Enter your Chat ID">
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+                            Your Chat ID: <span id="clearChatIdValue">Not detected</span>
+                            <button type="button" class="copy-btn" onclick="detectChatId('clearToken', 'clearChatIdValue', 'clearChatIdInput')">
+                                <i class="fas fa-sync-alt"></i> Detect
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="closeModal('clearUpdatesModal')">Cancel</button>
                     <button class="btn btn-warning" onclick="clearPendingRequests()">
-                        <i class="fas fa-broom"></i> Clear Updates
+                        <i class="fas fa-broom"></i> Clear Requests
                     </button>
                 </div>
             </div>
@@ -547,8 +1283,35 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="infoToken" class="form-label">Bot Token</label>
-                    <input type="text" id="infoToken" class="form-input" placeholder="Enter your bot token">
+                    <div class="token-input-group">
+                        <input type="password" id="infoToken" class="form-input" placeholder="Enter your bot token">
+                        <button class="btn btn-outline" onclick="toggleTokenVisibility('infoToken')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="token-validity" id="infoTokenValidity">
+                        <i class="fas fa-question-circle validity-icon"></i>
+                        <span>Token not validated</span>
+                    </div>
                 </div>
+                
+                <div class="notification-settings">
+                    <div class="notification-toggle">
+                        <input type="checkbox" id="infoNotify" onchange="toggleChatIdField('infoNotify', 'infoChatId')">
+                        <label for="infoNotify">Send information message</label>
+                    </div>
+                    <div class="form-group chat-id-field" id="infoChatId">
+                        <label for="infoChatIdInput" class="form-label">Chat ID for information</label>
+                        <input type="text" id="infoChatIdInput" class="form-input" placeholder="Enter your Chat ID">
+                        <p style="font-size: 0.8rem; color: var(--gray); margin-top: 0.5rem;">
+                            Your Chat ID: <span id="infoChatIdValue">Not detected</span>
+                            <button type="button" class="copy-btn" onclick="detectChatId('infoToken', 'infoChatIdValue', 'infoChatIdInput')">
+                                <i class="fas fa-sync-alt"></i> Detect
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                
                 <div class="form-actions">
                     <button class="btn btn-outline" onclick="closeModal('botInfoModal')">Cancel</button>
                     <button class="btn btn-primary" onclick="getBotInfo()">
@@ -559,33 +1322,284 @@
         </div>
     </div>
 
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3 class="settings-title">Settings</h3>
+            <button class="close-settings" onclick="hideSettings()">&times;</button>
+        </div>
+        
+        <div class="settings-group">
+            <label class="settings-label">Token Storage</label>
+            <div class="settings-checkbox">
+                <input type="checkbox" id="storeTokens" checked>
+                <label for="storeTokens">Store tokens locally for convenience</label>
+            </div>
+            <div class="settings-checkbox">
+                <input type="checkbox" id="clearOnExit">
+                <label for="clearOnExit">Clear tokens when browser closes</label>
+            </div>
+        </div>
+        
+        <div class="settings-group">
+            <label class="settings-label">API Settings</label>
+            <div class="settings-checkbox">
+                <input type="checkbox" id="validateTokens" checked>
+                <label for="validateTokens">Validate tokens before use</label>
+            </div>
+        </div>
+        
+        <div class="settings-group">
+            <label class="settings-label">Notifications</label>
+            <div class="settings-checkbox">
+                <input type="checkbox" id="defaultNotifications">
+                <label for="defaultNotifications">Enable notifications by default</label>
+            </div>
+        </div>
+        
+        <div class="settings-footer">
+            <button class="btn btn-outline" onclick="resetSettings()">
+                <i class="fas fa-undo"></i> Reset Settings
+            </button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
     <div id="toast" class="toast"></div>
 
     <script>
+        let tokenHistory = JSON.parse(localStorage.getItem('tokenHistory')) || [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            renderTokenHistory();
+            setupTokenValidation();
+        });
+
         function showCreateWebhookModal() {
             document.getElementById('createWebhookModal').style.display = 'block';
+            validateToken('createToken', 'createTokenValidity');
+            if (document.getElementById('defaultNotifications').checked) {
+                document.getElementById('createNotify').checked = true;
+                toggleChatIdField('createNotify', 'createChatId');
+            }
         }
 
         function showDeleteWebhookModal() {
             document.getElementById('deleteWebhookModal').style.display = 'block';
+            validateToken('deleteToken', 'deleteTokenValidity');
+            if (document.getElementById('defaultNotifications').checked) {
+                document.getElementById('deleteNotify').checked = true;
+                toggleChatIdField('deleteNotify', 'deleteChatId');
+            }
         }
 
         function showClearUpdatesModal() {
             document.getElementById('clearUpdatesModal').style.display = 'block';
+            validateToken('clearToken', 'clearTokenValidity');
+            if (document.getElementById('defaultNotifications').checked) {
+                document.getElementById('clearNotify').checked = true;
+                toggleChatIdField('clearNotify', 'clearChatId');
+            }
         }
 
         function showBotInfoModal() {
             document.getElementById('botInfoModal').style.display = 'block';
+            validateToken('infoToken', 'infoTokenValidity');
+            if (document.getElementById('defaultNotifications').checked) {
+                document.getElementById('infoNotify').checked = true;
+                toggleChatIdField('infoNotify', 'infoChatId');
+            }
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
+        function showSettings() {
+            document.getElementById('settingsPanel').classList.add('open');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function hideSettings() {
+            document.getElementById('settingsPanel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+            saveSettings();
+        }
+
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('appSettings')) || {};
+            document.getElementById('storeTokens').checked = settings.storeTokens !== false;
+            document.getElementById('clearOnExit').checked = settings.clearOnExit || false;
+            document.getElementById('validateTokens').checked = settings.validateTokens !== false;
+            document.getElementById('defaultNotifications').checked = settings.defaultNotifications || false;
+        }
+
+        function saveSettings() {
+            const settings = {
+                storeTokens: document.getElementById('storeTokens').checked,
+                clearOnExit: document.getElementById('clearOnExit').checked,
+                validateTokens: document.getElementById('validateTokens').checked,
+                defaultNotifications: document.getElementById('defaultNotifications').checked
+            };
+            localStorage.setItem('appSettings', JSON.stringify(settings));
+            showToast('Settings saved successfully', 'success');
+        }
+
+        function resetSettings() {
+            localStorage.removeItem('appSettings');
+            loadSettings();
+            showToast('Settings reset to defaults', 'success');
+        }
+
+        function toggleTokenVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                input.type = 'password';
+                button.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+
+        function toggleChatIdField(checkboxId, fieldId) {
+            const isChecked = document.getElementById(checkboxId).checked;
+            document.getElementById(fieldId).style.display = isChecked ? 'block' : 'none';
+        }
+
+        function detectChatId(tokenInputId, valueSpanId, chatIdInputId) {
+            const token = document.getElementById(tokenInputId).value.trim();
+            
+            if (!token) {
+                showToast('Please enter a bot token first', 'error');
+                return;
+            }
+            
+            fetch(`https://api.telegram.org/bot${token}/getUpdates`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok && data.result.length > 0) {
+                        const chatId = data.result[data.result.length - 1].message.chat.id;
+                        document.getElementById(valueSpanId).textContent = chatId;
+                        document.getElementById(chatIdInputId).value = chatId;
+                        showToast('Chat ID detected successfully', 'success');
+                    } else {
+                        showToast('Send a message to your bot first to detect Chat ID', 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast('Error detecting Chat ID: ' + error.message, 'error');
+                });
+        }
+
+        function setupTokenValidation() {
+            ['createToken', 'deleteToken', 'clearToken', 'infoToken'].forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    validateToken(id, `${id}Validity`);
+                });
+            });
+        }
+
+        function validateToken(inputId, validityElementId) {
+            const token = document.getElementById(inputId).value.trim();
+            const validityElement = document.getElementById(validityElementId);
+            
+            if (!token) {
+                validityElement.innerHTML = '<i class="fas fa-question-circle validity-icon"></i><span>Token not validated</span>';
+                return;
+            }
+            
+            if (!document.getElementById('validateTokens').checked) {
+                validityElement.innerHTML = '<i class="fas fa-check-circle validity-icon valid"></i><span>Token validation skipped</span>';
+                return;
+            }
+            
+            fetch(`https://api.telegram.org/bot${token}/getMe`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        validityElement.innerHTML = `<i class="fas fa-check-circle validity-icon valid"></i><span>Valid token for @${data.result.username}</span>`;
+                        addToTokenHistory(token, data.result.username);
+                    } else {
+                        validityElement.innerHTML = `<i class="fas fa-times-circle validity-icon invalid"></i><span>Invalid token: ${data.description || 'Unknown error'}</span>`;
+                    }
+                })
+                .catch(error => {
+                    validityElement.innerHTML = `<i class="fas fa-exclamation-circle validity-icon invalid"></i><span>Validation error: ${error.message}</span>`;
+                });
+        }
+
+        function addToTokenHistory(token, username) {
+            if (!document.getElementById('storeTokens').checked) return;
+            
+            tokenHistory = tokenHistory.filter(t => t.token !== token);
+            
+            tokenHistory.unshift({
+                token: token,
+                username: username,
+                timestamp: new Date().toISOString()
+            });
+            
+            if (tokenHistory.length > 5) {
+                tokenHistory = tokenHistory.slice(0, 5);
+            }
+            
+            localStorage.setItem('tokenHistory', JSON.stringify(tokenHistory));
+            renderTokenHistory();
+        }
+
+        function renderTokenHistory() {
+            const tokenList = document.getElementById('tokenList');
+            
+            if (!tokenHistory.length) {
+                tokenList.innerHTML = '<li class="token-item"><span>No recent tokens found</span></li>';
+                return;
+            }
+            
+            tokenList.innerHTML = tokenHistory.map(token => `
+                <li class="token-item">
+                    <span>@${token.username}</span>
+                    <div class="token-actions">
+                        <button class="use-btn" onclick="useToken('${token.token}')"><i class="fas fa-arrow-right"></i></button>
+                        <button class="delete-btn" onclick="removeToken('${token.token}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function useToken(token) {
+            const openModals = ['createWebhookModal', 'deleteWebhookModal', 'clearUpdatesModal', 'botInfoModal']
+                .filter(id => document.getElementById(id).style.display === 'block');
+            
+            if (openModals.length) {
+                const modalId = openModals[0];
+                const tokenInputId = modalId.replace('Modal', 'Token');
+                document.getElementById(tokenInputId).value = token;
+                validateToken(tokenInputId, `${tokenInputId}Validity`);
+                showToast('Token inserted', 'success');
+            } else {
+                document.getElementById('infoToken').value = token;
+                validateToken('infoToken', 'infoTokenValidity');
+                showBotInfoModal();
+            }
+        }
+
+        function removeToken(token) {
+            tokenHistory = tokenHistory.filter(t => t.token !== token);
+            localStorage.setItem('tokenHistory', JSON.stringify(tokenHistory));
+            renderTokenHistory();
+            showToast('Token removed from history', 'success');
+        }
+
         function showToast(message, type) {
             const toast = document.getElementById('toast');
             toast.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 
+                                  type === 'error' ? 'fa-exclamation-circle' : 
+                                  'fa-info-circle'}"></i>
                 ${message}
             `;
             toast.className = `toast ${type}`;
@@ -599,46 +1613,190 @@
             }, 3000);
         }
 
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            
+            document.querySelector(`.tab-btn[onclick="switchTab('${tabName}')"]`).classList.add('active');
+        }
+
+        function sendNotification(token, chatId, message) {
+            if (!chatId) return Promise.resolve();
+            
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+            const params = {
+                chat_id: chatId,
+                text: message,
+                parse_mode: 'HTML'
+            };
+            
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.ok) {
+                    console.error('Failed to send notification:', data);
+                }
+                return data;
+            })
+            .catch(error => {
+                console.error('Error sending notification:', error);
+            });
+        }
+
         function createWebhook() {
             const token = document.getElementById('createToken').value.trim();
             const url = document.getElementById('webhookUrl').value.trim();
+            const maxConnections = document.getElementById('maxConnections').value || 40;
+            const allowedUpdates = document.getElementById('allowedUpdates').value.trim();
+            const secretToken = document.getElementById('secretToken').value.trim();
+            const sendNotify = document.getElementById('createNotify').checked;
+            const chatId = document.getElementById('createChatIdInput').value.trim();
             
             if (!token || !url) {
-                showToast('Please fill in all fields', 'error');
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (!url.startsWith('https://')) {
+                showToast('Webhook URL must start with https://', 'error');
                 return;
             }
             
             closeModal('createWebhookModal');
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('tokenInfo').style.display = 'none';
+            document.getElementById('infoTabs').style.display = 'none';
             document.getElementById('infoModal').style.display = 'block';
             
-            fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(url)}`, {
+            let apiUrl = `https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(url)}`;
+            
+            if (maxConnections) {
+                apiUrl += `&max_connections=${maxConnections}`;
+            }
+            
+            if (allowedUpdates) {
+                apiUrl += `&allowed_updates=${encodeURIComponent(allowedUpdates)}`;
+            }
+            
+            if (secretToken) {
+                apiUrl += `&secret_token=${encodeURIComponent(secretToken)}`;
+            }
+            
+            const startTime = performance.now();
+            
+            fetch(apiUrl, {
                 method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
+                const endTime = performance.now();
+                const responseTime = (endTime - startTime).toFixed(2);
+                
                 document.getElementById('spinner').style.display = 'none';
+                document.getElementById('infoTabs').style.display = 'block';
+                
                 if (data.ok) {
-                    document.getElementById('tokenInfo').textContent = `✅ Webhook created successfully!\n\nURL: ${url}\n\nResponse: ${JSON.stringify(data, null, 2)}`;
-                    document.getElementById('tokenInfo').style.display = 'block';
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Webhook Created Successfully</h4>
+                        <p>Your webhook has been successfully configured.</p>
+                    `;
+                    
+                    document.getElementById('infoGrid').innerHTML = `
+                        <div class="info-card">
+                            <div class="info-card-title">Webhook URL</div>
+                            <div class="info-card-value">${url}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Max Connections</div>
+                            <div class="info-card-value">${maxConnections}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Response Time</div>
+                            <div class="info-card-value">${responseTime} ms</div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('webhookInfo').innerHTML = `
+                        <div class="info-card">
+                            <div class="info-card-title">Webhook Status</div>
+                            <div class="info-card-value"><span class="status-badge status-active">Active</span></div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Pending Requests</div>
+                            <div class="info-card-value">0</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Last Error</div>
+                            <div class="infoCard-value">None</div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms`;
+                    document.getElementById('advancedInfo').textContent = JSON.stringify(data, null, 2);
+                    
                     showToast('Webhook created successfully!', 'success');
+                    addToTokenHistory(token, 'bot');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `✅ <b>Webhook Created Successfully</b>\n\n` +
+                                      `Your webhook has been configured with the following details:\n` +
+                                      `• URL: <code>${url}</code>\n` +
+                                      `• Max Connections: ${maxConnections}\n` +
+                                      `• Response Time: ${responseTime} ms`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 } else {
-                    document.getElementById('tokenInfo').textContent = `❌ Failed to create webhook:\n\n${data.description || 'Unknown error'}`;
-                    document.getElementById('tokenInfo').style.display = 'block';
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Failed to Create Webhook</h4>
+                        <p>${data.description || 'Unknown error'}</p>
+                    `;
                     showToast(data.description || 'Failed to create webhook', 'error');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `❌ <b>Webhook Creation Failed</b>\n\n` +
+                                      `Error: ${data.description || 'Unknown error'}`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 }
             })
             .catch(error => {
                 document.getElementById('spinner').style.display = 'none';
-                document.getElementById('tokenInfo').textContent = `❌ Error: ${error.message}`;
+                document.getElementById('tokenInfo').innerHTML = `
+                    <h4>Error</h4>
+                    <p>${error.message}</p>
+                `;
                 document.getElementById('tokenInfo').style.display = 'block';
                 showToast('An error occurred', 'error');
+                
+                if (sendNotify && chatId) {
+                    const message = `❌ <b>Webhook Creation Error</b>\n\n` +
+                                  `Error: ${error.message}`;
+                    
+                    sendNotification(token, chatId, message);
+                }
             });
         }
 
         function deleteWebhook() {
             const token = document.getElementById('deleteToken').value.trim();
+            const dropPending = document.getElementById('dropPendingUpdates').checked;
+            const sendNotify = document.getElementById('deleteNotify').checked;
+            const chatId = document.getElementById('deleteChatIdInput').value.trim();
             
             if (!token) {
                 showToast('Please enter your bot token', 'error');
@@ -648,34 +1806,102 @@
             closeModal('deleteWebhookModal');
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('tokenInfo').style.display = 'none';
+            document.getElementById('infoTabs').style.display = 'none';
             document.getElementById('infoModal').style.display = 'block';
             
-            fetch(`https://api.telegram.org/bot${token}/deleteWebhook`, {
+            const startTime = performance.now();
+            const apiUrl = `https://api.telegram.org/bot${token}/deleteWebhook${dropPending ? '?drop_pending_updates=true' : ''}`;
+            
+            fetch(apiUrl, {
                 method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
+                const endTime = performance.now();
+                const responseTime = (endTime - startTime).toFixed(2);
+                
                 document.getElementById('spinner').style.display = 'none';
+                document.getElementById('infoTabs').style.display = 'block';
+                
                 if (data.ok) {
-                    document.getElementById('tokenInfo').textContent = `✅ Webhook deleted successfully!\n\nResponse: ${JSON.stringify(data, null, 2)}`;
-                    document.getElementById('tokenInfo').style.display = 'block';
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Webhook Deleted Successfully</h4>
+                        <p>Your webhook has been successfully removed.</p>
+                    `;
+                    
+                    document.getElementById('infoGrid').innerHTML = `
+                        <div class="info-card">
+                            <div class="info-card-title">Operation</div>
+                            <div class="info-card-value">Webhook Deleted</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Pending Requests</div>
+                            <div class="info-card-value">${dropPending ? 'Dropped' : 'Kept'}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Response Time</div>
+                            <div class="info-card-value">${responseTime} ms</div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('webhookInfo').innerHTML = `
+                        <div class="info-card">
+                            <div class="info-card-title">Webhook Status</div>
+                            <div class="info-card-value"><span class="status-badge status-inactive">Inactive</span></div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms`;
+                    document.getElementById('advancedInfo').textContent = JSON.stringify(data, null, 2);
+                    
                     showToast('Webhook deleted successfully!', 'success');
+                    addToTokenHistory(token, 'bot');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `🗑️ <b>Webhook Deleted Successfully</b>\n\n` +
+                                      `Your webhook has been removed.\n` +
+                                      `• Pending Updates: ${dropPending ? 'Dropped' : 'Kept'}\n` +
+                                      `• Response Time: ${responseTime} ms`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 } else {
-                    document.getElementById('tokenInfo').textContent = `❌ Failed to delete webhook:\n\n${data.description || 'Unknown error'}`;
-                    document.getElementById('tokenInfo').style.display = 'block';
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Failed to Delete Webhook</h4>
+                        <p>${data.description || 'Unknown error'}</p>
+                    `;
                     showToast(data.description || 'Failed to delete webhook', 'error');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `❌ <b>Webhook Deletion Failed</b>\n\n` +
+                                      `Error: ${data.description || 'Unknown error'}`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 }
             })
             .catch(error => {
                 document.getElementById('spinner').style.display = 'none';
-                document.getElementById('tokenInfo').textContent = `❌ Error: ${error.message}`;
+                document.getElementById('tokenInfo').innerHTML = `
+                    <h4>Error</h4>
+                    <p>${error.message}</p>
+                `;
                 document.getElementById('tokenInfo').style.display = 'block';
                 showToast('An error occurred', 'error');
+                
+                if (sendNotify && chatId) {
+                    const message = `❌ <b>Webhook Deletion Error</b>\n\n` +
+                                  `Error: ${error.message}`;
+                    
+                    sendNotification(token, chatId, message);
+                }
             });
         }
 
         function getBotInfo() {
             const token = document.getElementById('infoToken').value.trim();
+            const sendNotify = document.getElementById('infoNotify').checked;
+            const chatId = document.getElementById('infoChatIdInput').value.trim();
             
             if (!token) {
                 showToast('Please enter your bot token', 'error');
@@ -685,59 +1911,147 @@
             closeModal('botInfoModal');
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('tokenInfo').style.display = 'none';
+            document.getElementById('infoTabs').style.display = 'none';
             document.getElementById('infoModal').style.display = 'block';
+            
+            const startTime = performance.now();
             
             fetch(`https://api.telegram.org/bot${token}/getMe`)
             .then(response => response.json())
             .then(botData => {
                 if (botData.ok) {
-                    const canJoinGroups = botData.result.can_join_groups ? '✅ Yes' : '❌ No';
-                    const botInfo = `🤖 Bot Information\n────────────────────────\n` +
-                        `• Name: ${botData.result.first_name}\n` +
-                        `• Username: @${botData.result.username}\n` +
-                        `• ID: ${botData.result.id}\n` +
-                        `• Can join groups: ${canJoinGroups}\n` +
-                        `• Supports inline queries: ${botData.result.supports_inline_queries ? '✅ Yes' : '❌ No'}\n\n`;
+                    const botInfoHTML = `
+                        <h4>Bot Information</h4>
+                        <p>Here are the details for your Telegram bot.</p>
+                    `;
+                    
+                    const botInfoGrid = `
+                        <div class="info-card">
+                            <div class="info-card-title">Bot Name</div>
+                            <div class="info-card-value">${botData.result.first_name}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Username</div>
+                            <div class='info-card-value'>@${botData.result.username}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">Bot ID</div>
+                            <div class="info-card-value">${botData.result.id}</div>
+                        </div>
+                    `;
                     
                     return fetch(`https://api.telegram.org/bot${token}/getWebhookInfo`)
                         .then(response => response.json())
                         .then(webhookData => {
+                            const endTime = performance.now();
+                            const responseTime = (endTime - startTime).toFixed(2);
+                            
                             document.getElementById('spinner').style.display = 'none';
+                            document.getElementById('infoTabs').style.display = 'block';
+                            
+                            document.getElementById('tokenInfo').innerHTML = botInfoHTML;
+                            document.getElementById('infoGrid').innerHTML = botInfoGrid;
+                            
                             if (webhookData.ok) {
-                                const webhookInfo = `🌐 Webhook Information\n────────────────────────\n` +
-                                    `• URL: ${webhookData.result.url || 'Not set'}\n` +
-                                    `• IP Address: ${webhookData.result.ip_address || 'Not available'}\n` +
-                                    `• Pending updates: ${webhookData.result.pending_update_count}\n` +
-                                    `• Last error: ${webhookData.result.last_error_date ? new Date(webhookData.result.last_error_date * 1000).toLocaleString() : 'None'}\n` +
-                                    `• Error message: ${webhookData.result.last_error_message || 'None'}\n`;
+                                const webhookStatus = webhookData.result.url ? 
+                                    `<span class="status-badge status-active">Active</span>` : 
+                                    `<span class="status-badge status-inactive">Inactive</span>`;
                                 
-                                document.getElementById('tokenInfo').textContent = botInfo + webhookInfo;
-                                document.getElementById('tokenInfo').style.display = 'block';
+                                document.getElementById('webhookInfo').innerHTML = `
+                                    <div class="info-card">
+                                        <div class="info-card-title">Webhook Status</div>
+                                        <div class="info-card-value">${webhookStatus}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-card-title">Webhook URL</div>
+                                        <div class="info-card-value">${webhookData.result.url || 'Not set'}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-card-title">Pending Requests</div>
+                                        <div class="info-card-value">${webhookData.result.pending_update_count}</div>
+                                    </div>
+                                `;
+                                
+                                document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms`;
+                                document.getElementById('advancedInfo').textContent = JSON.stringify({
+                                    bot: botData,
+                                    webhook: webhookData
+                                }, null, 2);
+                                
+                                showToast('Bot information retrieved successfully!', 'success');
+                                addToTokenHistory(token, botData.result.username);
+                                
+                                if (sendNotify && chatId) {
+                                    const message = `🤖 <b>Bot Information</b>\n\n` +
+                                                  `• Name: ${botData.result.first_name}\n` +
+                                                  `• Username: @${botData.result.username}\n` +
+                                                  `• ID: ${botData.result.id}\n` +
+                                                  `• Webhook: ${webhookData.result.url ? 'Active' : 'Inactive'}\n` +
+                                                  `• Pending Updates: ${webhookData.result.pending_update_count}\n` +
+                                                  `• Response Time: ${responseTime} ms`;
+                                    
+                                    sendNotification(token, chatId, message);
+                                }
                             } else {
-                                document.getElementById('tokenInfo').textContent = botInfo + 
-                                    `\n❌ Failed to get webhook info:\n${webhookData.description || 'Unknown error'}`;
-                                document.getElementById('tokenInfo').style.display = 'block';
-                                showToast('Got bot info but failed to get webhook info', 'error');
+                                document.getElementById('webhookInfo').innerHTML = `
+                                    <div class="info-card">
+                                        <div class="info-card-title">Error</div>
+                                        <div class="info-card-value">${webhookData.description || 'Failed to get webhook info'}</div>
+                                    </div>
+                                `;
+                                showToast('Got bot info but failed to get webhook info', 'warning');
+                                
+                                if (sendNotify && chatId) {
+                                    const message = `🤖 <b>Bot Information</b>\n\n` +
+                                                  `• Name: ${botData.result.first_name}\n` +
+                                                  `• Username: @${botData.result.username}\n` +
+                                                  `• ID: ${botData.result.id}\n\n` +
+                                                  `⚠️ <i>Could not retrieve webhook information</i>`;
+                                    
+                                    sendNotification(token, chatId, message);
+                                }
                             }
                         });
                 } else {
                     document.getElementById('spinner').style.display = 'none';
-                    document.getElementById('tokenInfo').textContent = `❌ Failed to get bot info:\n\n${botData.description || 'Unknown error'}`;
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Error</h4>
+                        <p>${botData.description || 'Failed to get bot information'}</p>
+                    `;
                     document.getElementById('tokenInfo').style.display = 'block';
                     showToast(botData.description || 'Failed to get bot info', 'error');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `❌ <b>Bot Information Error</b>\n\n` +
+                                      `Error: ${botData.description || 'Failed to get bot information'}`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 }
             })
             .catch(error => {
                 document.getElementById('spinner').style.display = 'none';
-                document.getElementById('tokenInfo').textContent = `❌ Error: ${error.message}`;
+                document.getElementById('tokenInfo').innerHTML = `
+                    <h4>Error</h4>
+                    <p>${error.message}</p>
+                `;
                 document.getElementById('tokenInfo').style.display = 'block';
                 showToast('An error occurred', 'error');
+                
+                if (sendNotify && chatId) {
+                    const message = `❌ <b>Bot Information Error</b>\n\n` +
+                                  `Error: ${error.message}`;
+                    
+                    sendNotification(token, chatId, message);
+                }
             });
         }
 
         function clearPendingRequests() {
             const token = document.getElementById('clearToken').value.trim();
             const newUrl = document.getElementById('newWebhookUrl').value.trim();
+            const sendNotify = document.getElementById('clearNotify').checked;
+            const chatId = document.getElementById('clearChatIdInput').value.trim();
             
             if (!token) {
                 showToast('Please enter your bot token', 'error');
@@ -747,52 +2061,249 @@
             closeModal('clearUpdatesModal');
             document.getElementById('spinner').style.display = 'block';
             document.getElementById('tokenInfo').style.display = 'none';
+            document.getElementById('infoTabs').style.display = 'none';
             document.getElementById('infoModal').style.display = 'block';
             
-            fetch(`https://api.telegram.org/bot${token}/deleteWebhook`, {
+            const startTime = performance.now();
+            
+            fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=true`, {
                 method: 'POST'
             })
             .then(response => response.json())
             .then(data => {
                 if (data.ok) {
-                    document.getElementById('tokenInfo').textContent = `✅ Pending updates cleared successfully!\n\n`;
+                    let infoContent = `✅ Pending requests cleared successfully!\n\n`;
                     
                     if (newUrl) {
+                        if (!newUrl.startsWith('https://')) {
+                            document.getElementById('spinner').style.display = 'none';
+                            document.getElementById('tokenInfo').innerHTML = `
+                                <h4>Error</h4>
+                                <p>Webhook URL must start with https://</p>
+                            `;
+                            document.getElementById('tokenInfo').style.display = 'block';
+                            showToast('Webhook URL must be HTTPS', 'error');
+                            
+                            if (sendNotify && chatId) {
+                                const message = `❌ <b>Clear Requests Error</b>\n\n` +
+                                              `Error: Webhook URL must start with https://`;
+                                
+                                sendNotification(token, chatId, message);
+                            }
+                            return;
+                        }
+                        
                         return fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(newUrl)}`, {
                             method: 'POST'
                         })
                         .then(response => response.json())
                         .then(setData => {
+                            const endTime = performance.now();
+                            const responseTime = (endTime - startTime).toFixed(2);
+                            
                             document.getElementById('spinner').style.display = 'none';
+                            document.getElementById('infoTabs').style.display = 'block';
+                            
                             if (setData.ok) {
-                                document.getElementById('tokenInfo').textContent += `✅ New webhook set successfully!\n\nURL: ${newUrl}\n\nFull response:\n${JSON.stringify(setData, null, 2)}`;
-                                document.getElementById('tokenInfo').style.display = 'block';
-                                showToast('Updates cleared and new webhook set!', 'success');
+                                document.getElementById('tokenInfo').innerHTML = `
+                                    <h4>Requests Cleared and Webhook Set</h4>
+                                    <p>Pending requests were cleared and a new webhook was configured.</p>
+                                `;
+                                
+                                document.getElementById('infoGrid').innerHTML = `
+                                    <div class="info-card">
+                                        <div class="info-card-title">Operation</div>
+                                        <div class="info-card-value">Requests Cleared + Webhook Set</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-card-title">New Webhook URL</div>
+                                        <div class="info-card-value">${newUrl}</div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-card-title">Response Time</div>
+                                        <div class="info-card-value">${responseTime} ms</div>
+                                    </div>
+                                `;
+                                
+                                document.getElementById('webhookInfo').innerHTML = `
+                                    <div class="info-card">
+                                        <div class="info-card-title">Webhook Status</div>
+                                        <div class="info-card-value"><span class="status-badge status-active">Active</span></div>
+                                    </div>
+                                `;
+                                
+                                document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms`;
+                                document.getElementById('advancedInfo').textContent = JSON.stringify(setData, null, 2);
+                                
+                                showToast('Requests cleared and new webhook set!', 'success');
+                                addToTokenHistory(token, 'bot');
+                                
+                                if (sendNotify && chatId) {
+                                    const message = `🧹 <b>Requests Cleared + Webhook Set</b>\n\n` +
+                                                  `Pending requests were cleared and a new webhook was configured:\n` +
+                                                  `• New URL: <code>${newUrl}</code>\n` +
+                                                  `• Response Time: ${responseTime} ms`;
+                                    
+                                    sendNotification(token, chatId, message);
+                                }
                             } else {
-                                document.getElementById('tokenInfo').textContent += `❌ Failed to set new webhook:\n\n${setData.description || 'Unknown error'}`;
-                                document.getElementById('tokenInfo').style.display = 'block';
-                                showToast('Updates cleared but failed to set new webhook', 'error');
+                                document.getElementById('tokenInfo').innerHTML = `
+                                    <h4>Requests Cleared but Webhook Failed</h4>
+                                    <p>Pending requests were cleared but setting the new webhook failed.</p>
+                                    <p>${setData.description || 'Unknown error'}</p>
+                                `;
+                                showToast('Requests cleared but failed to set new webhook', 'warning');
+                                
+                                if (sendNotify && chatId) {
+                                    const message = `⚠️ <b>Requests Cleared but Webhook Failed</b>\n\n` +
+                                                  `Pending requests were cleared but setting the new webhook failed:\n` +
+                                                  `Error: ${setData.description || 'Unknown error'}`;
+                                    
+                                    sendNotification(token, chatId, message);
+                                }
                             }
                         });
                     } else {
+                        const endTime = performance.now();
+                        const responseTime = (endTime - startTime).toFixed(2);
+                        
                         document.getElementById('spinner').style.display = 'none';
-                        document.getElementById('tokenInfo').textContent += `No new webhook URL was provided.\n\nFull response:\n${JSON.stringify(data, null, 2)}`;
-                        document.getElementById('tokenInfo').style.display = 'block';
-                        showToast('Pending updates cleared successfully!', 'success');
+                        document.getElementById('infoTabs').style.display = 'block';
+                        
+                        document.getElementById('tokenInfo').innerHTML = `
+                            <h4>Requests Cleared</h4>
+                            <p>Pending requests were successfully cleared.</p>
+                        `;
+                        
+                        document.getElementById('infoGrid').innerHTML = `
+                            <div class="info-card">
+                                <div class="info-card-title">Operation</div>
+                                <div class="info-card-value">Requests Cleared</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">New Webhook</div>
+                                <div class="info-card-value">Not set</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">Response Time</div>
+                                <div class="info-card-value">${responseTime} ms</div>
+                            </div>
+                        `;
+                        
+                        document.getElementById('webhookInfo').innerHTML = `
+                            <div class="info-card">
+                                <div class="info-card-title">Webhook Status</div>
+                                <div class="info-card-value"><span class="status-badge status-inactive">Inactive</span></div>
+                            </div>
+                        `;
+                        
+                        document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms`;
+                        document.getElementById('advancedInfo').textContent = JSON.stringify(data, null, 2);
+                        
+                        showToast('Pending requests cleared successfully!', 'success');
+                        addToTokenHistory(token, 'bot');
+                        
+                        if (sendNotify && chatId) {
+                            const message = `🧹 <b>Requests Cleared</b>\n\n` +
+                                          `Pending requests were successfully cleared.\n` +
+                                          `• Response Time: ${responseTime} ms`;
+                            
+                            sendNotification(token, chatId, message);
+                        }
                     }
                 } else {
                     document.getElementById('spinner').style.display = 'none';
-                    document.getElementById('tokenInfo').textContent = `❌ Failed to clear pending updates:\n\n${data.description || 'Unknown error'}`;
+                    document.getElementById('tokenInfo').innerHTML = `
+                        <h4>Error</h4>
+                        <p>${data.description || 'Failed to clear pending requests'}</p>
+                    `;
                     document.getElementById('tokenInfo').style.display = 'block';
-                    showToast(data.description || 'Failed to clear updates', 'error');
+                    showToast(data.description || 'Failed to clear requests', 'error');
+                    
+                    if (sendNotify && chatId) {
+                        const message = `❌ <b>Clear Requests Error</b>\n\n` +
+                                      `Error: ${data.description || 'Failed to clear pending requests'}`;
+                        
+                        sendNotification(token, chatId, message);
+                    }
                 }
             })
             .catch(error => {
                 document.getElementById('spinner').style.display = 'none';
-                document.getElementById('tokenInfo').textContent = `❌ Error: ${error.message}`;
+                document.getElementById('tokenInfo').innerHTML = `
+                    <h4>Error</h4>
+                    <p>${error.message}</p>
+                `;
                 document.getElementById('tokenInfo').style.display = 'block';
                 showToast('An error occurred', 'error');
+                
+                if (sendNotify && chatId) {
+                    const message = `❌ <b>Clear Requests Error</b>\n\n` +
+                                  `Error: ${error.message}`;
+                    
+                    sendNotification(token, chatId, message);
+                }
             });
+        }
+
+        function testWebhook() {
+            const token = document.getElementById('infoToken').value.trim();
+            
+            if (!token) {
+                showToast('No token available to test webhook', 'error');
+                return;
+            }
+            
+            const startTime = performance.now();
+            showToast('Testing webhook...', 'success');
+            
+            fetch(`https://api.telegram.org/bot${token}/getWebhookInfo`)
+            .then(response => response.json())
+            .then(data => {
+                const endTime = performance.now();
+                const responseTime = (endTime - startTime).toFixed(2);
+                
+                if (data.ok) {
+                    document.getElementById('webhookResponseTime').textContent = `API response time: ${responseTime} ms | Last checked: ${new Date().toLocaleTimeString()}`;
+                    
+                    if (data.result.url) {
+                        showToast(`Webhook is active: ${data.result.url}`, 'success');
+                    } else {
+                        showToast('No webhook is currently set', 'warning');
+                    }
+                } else {
+                    showToast(data.description || 'Failed to test webhook', 'error');
+                }
+            })
+            .catch(error => {
+                showToast(`Error testing webhook: ${error.message}`, 'error');
+            });
+        }
+
+        function exportBotInfo() {
+            const advancedInfo = document.getElementById('advancedInfo').textContent;
+            
+            if (!advancedInfo) {
+                showToast('No information to export', 'error');
+                return;
+            }
+            
+            const blob = new Blob([advancedInfo], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `telegram-bot-info-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Information exported successfully', 'success');
+        }
+
+        function showDocumentation() {
+            const docUrl = 'https://core.telegram.org/bots/api';
+            window.open(docUrl, '_blank');
         }
 
         window.onclick = function(event) {
@@ -802,8 +2313,10 @@
             if (event.target.className === 'input-modal') {
                 event.target.style.display = 'none';
             }
+            if (event.target.id === 'overlay') {
+                hideSettings();
+            }
         }
     </script>
 </body>
-
     </html>
